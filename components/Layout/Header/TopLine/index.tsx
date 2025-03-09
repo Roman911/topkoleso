@@ -12,7 +12,7 @@ interface Props {
 
 const TopLine: FC<Props> = ({ alias, settings }) => {
 	return (
-		<section className='top-line w-full bg-gray-200 border-b border-gray-600'>
+		<section className='top-line w-full bg-gray-200 border-b border-gray-400'>
 			<div className='container mx-auto flex justify-between py-2 px-4'>
 				<Phones settings={ settings } isInfo={ false } />
 				<Menu alias={ alias } />
