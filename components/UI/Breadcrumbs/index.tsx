@@ -18,10 +18,10 @@ const MyBreadcrumbs: FC<Props> = ({ path }) => {
 	const t = useTranslations('Main');
 
 	return (
-		<Breadcrumbs separator='/' className='text-gray-400 hover:text-primary'>
+		<Breadcrumbs separator='/' className='text-gray-500 hover:text-primary'>
 			<BreadcrumbItem>
 				<Link href='/'>
-					<Icons.HomeIcon className='w-4 h-4 fill-gray-400'/>
+					<Icons.HomeIcon className='w-4 h-4 fill-gray-500'/>
 				</Link>
 			</BreadcrumbItem>
 			{ path.filter(item => item.href !== '').map((item, index) => {
