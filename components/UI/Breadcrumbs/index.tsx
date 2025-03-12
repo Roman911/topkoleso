@@ -26,8 +26,8 @@ const MyBreadcrumbs: FC<Props> = ({ path }) => {
 			</BreadcrumbItem>
 			{ path.filter(item => item.href !== '').map((item, index) => {
 				return (
-					<BreadcrumbItem key={ index + 1 } className={ twMerge(index === path.length - 1 ? 'text-black font-bold' : 'underline') }>
-						<Link href={ item.href }>
+					<BreadcrumbItem key={ index + 1 } className={ twMerge(index === path.length - 1 ? 'font-semibold' : 'underline') }>
+						<Link href={ item.href } className={ twMerge(index === path.length - 1 && 'text-gray-600') }>
 							{ item.translations ? t(item.title) : item.title }
 						</Link>
 					</BreadcrumbItem>
