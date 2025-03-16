@@ -1,10 +1,8 @@
 'use client'
-import { Link } from '@/i18n/routing';
 import { FC, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button } from '@heroui/button';
 import ImagesBlock from './ImagesBlock';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppDispatch } from '@/hooks/redux';
 import { changeSection } from '@/store/slices/filterSlice';
 import { Language } from '@/models/language';
 import { ProductProps } from '@/models/product';
@@ -15,11 +13,11 @@ import Rating from '@/components/UI/Rating';
 import Quantity from '@/components/UI/Quantity';
 import DeliveryCalculation from '@/components/Product/DeliveryCalculation';
 import { addCart } from '@/store/slices/cartSlice';
-import QuickOrder from '@/components/Product/QuickOrder';
 import CharacteristicsBlock from '@/components/Product/CharacteristicsBlock';
 import InfoBlock from '@/components/Product/InfoBlock';
 import { SettingsProps } from '@/models/settings';
 import Offers from '@/components/Product/Offers';
+import BuyActions from '@/components/Product/BuyActions';
 
 interface Props {
 	idProduct: string
@@ -33,9 +31,8 @@ const ProductComponent: FC<Props> = ({ idProduct, locale, data, section, setting
 	const dispatch = useAppDispatch();
 	const [ offerId, setOfferId ] = useState('0');
 	const [ quantity, setQuantity ] = useState(1);
-	const { cartItems } = useAppSelector(state => state.cartReducer);
 	const t = useTranslations('Main');
-	const { id = 0, full_name = '', offers = [], min_price = 0, photo, model, labels, offer_group } = data?.data || {};
+	const { id = 0, full_name = '', offers = [], photo, model, labels, offer_group } = data?.data || {};
 	const offer = offers.find(item => item.offer_id === +offerId);
 	const review = data?.data.review;
 	const commentsAvgRateSum = review && review.length > 0
@@ -110,16 +107,16 @@ const ProductComponent: FC<Props> = ({ idProduct, locale, data, section, setting
 									commentsAvgRate={ averageScore || 0 }
 								/>
 							</div>
-							<div className='flex justify-between mt-4 md:mt-6'>
+							<div className='flex justify-between mt-4 md:mt-8'>
 								<div>
 									<div className='flex items-end'>
 										<div className='mr-2.5 text-xl font-medium lowercase'>{ t('price') }</div>
 										<div className='text-4xl font-bold mr-2.5'>{ offer && +offer?.price } ₴</div>
 										<div className='text-xl font-medium'>/шт.</div>
 									</div>
-									<div className='mt-3 text-gray-500'>
-										{ t('price') } <span className='font-bold'>{ min_price * 4 } ₴ </span> за 4 шт.
-									</div>
+									{ section !== Section.Battery && <div className='mt-3 text-gray-500 font-semibold text-sm'>
+										* { t(section === Section.Disks ? 'price one disk' : 'price one tire') }
+									</div> }
 								</div>
 								<ActionsBlock className='hidden md:flex' id={ id } section={ section } quantity={ quantity } productName={ full_name } />
 							</div>
@@ -132,19 +129,7 @@ const ProductComponent: FC<Props> = ({ idProduct, locale, data, section, setting
 											price={ offer?.price } onChange={ onChange } setQuantity={ onSetQuantity }/>
 						<DeliveryCalculation offer_id={ +offerId } quantity={ quantity } setQuantity={ setQuantity } price={ offer ? +offer?.price : 0 } />
 					</div>
-					<div className='buttons-buy flex flex-col gap-2'>
-						{ cartItems.find(item => +item.id === +offerId) ?
-							<Link href={ `/cart` } className='btn bg-success uppercase text-black rounded-full font-bold w-full md:w-72'>
-								<span className='ml-2.5'>{ locale === Language.UK ? 'Перейти до кошика' : 'Перейти в корзину' }</span>
-							</Link> :
-							<Button onPress={ onSubmit } color='primary' radius='full' size='lg' className='uppercase w-full font-bold md:w-72'>
-								{ t('buy') }
-							</Button>
-						}
-						<QuickOrder locale={ locale } offerId={ +offerId } quantity={ quantity } section={ section }
-												offerItem={ data?.data?.offers?.find(item => item.offer_id === +offerId) }
-						/>
-					</div>
+					<BuyActions locale={ locale } offerId={ +offerId } quantity={ quantity } section={ section } onSubmit={ onSubmit } data={ data } />
 				</div>
 				<CharacteristicsBlock locale={ locale } data={ data } />
 			</div>
