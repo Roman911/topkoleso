@@ -88,7 +88,7 @@ const CartComponent: FC<CarProps> = ({ data, cartItems, removeProduct, setQuanti
 				<div>{ totalQuantityPrice } ₴</div>
 			</div>
 			<div className='mt-6'>
-				<Link href='/order'>
+				<Link href='/order' className='relative block'>
 					<Button color='primary' size='lg' radius='full' className='w-full uppercase font-bold'>
 						{ t('place an order') }
 					</Button>
