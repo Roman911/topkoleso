@@ -23,6 +23,7 @@
     "@heroui/modal": "^2.2.12",
     "@heroui/navbar": "^2.2.13",
     "@heroui/pagination": "^2.2.13",
+    "@heroui/progress": "^2.2.12",
     "@heroui/radio": "^2.3.14",
     "@heroui/scroll-shadow": "^2.3.10",
     "@heroui/select": "^2.4.15",
