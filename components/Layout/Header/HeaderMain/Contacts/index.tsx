@@ -33,12 +33,11 @@ const Contacts: FC<Props> = ({ settings }) => {
 				{(item) => (
 					<DropdownItem
 						key={ item.phone }
+						href={`tel:${item.url}`}
 						startContent={ item.logo ? <Image width={ 24 } height={ 24 } src={`/icons/${item.logo}-logo.svg`} alt=''/> :
 							<Icons.PhoneIcon className='fill-primary' /> }
 					>
-						<a href={`tel:${item.url}`} className='ml-2.5 font-medium'>
-							{item.phone}
-						</a>
+						{item.phone}
 					</DropdownItem>
 				)}
 			</DropdownMenu>
