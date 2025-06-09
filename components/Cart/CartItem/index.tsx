@@ -6,6 +6,8 @@ import { Language } from '@/models/language';
 import { countryCodeTransform } from '@/lib/countryCodetransform';
 import CountryInfo from '@/components/UI/CountryInfo';
 import Quantity from '@/components/UI/Quantity';
+import { onRemoveFromCart } from '@/event';
+import { Section } from '@/models/filter';
 
 interface CartItemProps {
 	id: number
@@ -19,6 +21,8 @@ interface CartItemProps {
 	country_ru: string
 	year: number
 	locale: string
+	brand: string
+	model: string
 	offerQuantity: number,
 	removeProduct: (id: number) => void
 	setQuantity: (id: number, quantity: number) => void
@@ -36,19 +40,26 @@ const CartItem: FC<CartItemProps> = (
 		country,
 		country_ru,
 		year,
+		brand,
+		model,
 		offerQuantity,
 		setQuantity,
 		removeProduct,
 		locale
 	}) => {
-
+	const section = /\bdia\d+\b/.test(pageUrl) ? Section.Disks : /(?:^|[^a-zA-Z])\d+ah(?=-|$)/.test(pageUrl) ? Section.Battery : Section.Tires;
 	const onChange = (e: { target: HTMLInputElement }) => {
-		console.log(e)
 		const value = e.target.value;
 		const onlyNumbers = value.replace(/\D/g, '');
 		const numericValue = Number(onlyNumbers);
 
 		setQuantity(id,numericValue < offerQuantity ? numericValue : offerQuantity);
+	}
+
+	const onRemove = (id: number) => {
+		const data = { id, full_name, price, brand, model }
+		onRemoveFromCart(data, section, quantity)
+		removeProduct(id);
 	}
 
 	return <div className='flex flex-col lg:flex-row py-4 items-center relative border-b'>
@@ -84,7 +95,7 @@ const CartItem: FC<CartItemProps> = (
 		<Button
 			isIconOnly
 			variant='light'
-			onPress={() => removeProduct(id)}
+			onPress={() => onRemove(id)}
 			className='absolute top-4 right-0 lg:right-3 p-2'
 		>
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-4 h-4 fill-gray-500'>

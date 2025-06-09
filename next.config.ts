@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
 			{
 				protocol: 'https',
 				hostname: 'admin.topkoleso.com.ua',
-				pathname: '/storage/**',
+				pathname: '**',
 			},
 		],
 	},

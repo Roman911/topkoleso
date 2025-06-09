@@ -14,6 +14,7 @@ import Breadcrumbs from '@/components/UI/Breadcrumbs';
 import OrderComponent from '@/components/Order';
 import { resetStorage } from '@/lib/localeStorage';
 import { formatPhoneNumber } from '@/lib/formatPhoneNumber';
+import { onOrderMakeEnd } from '@/event';
 
 export default function Order() {
 	const router = useRouter();
@@ -110,6 +111,7 @@ export default function Order() {
 				if(data) {
 					if(data.linkpay?.length > 0) window.open(data?.linkpay, "_blank")
 					if(data.result) {
+						onOrderMakeEnd(newData, cartItems, data?.order_id);
 						dispatch(reset());
 						resetStorage('reducerCart');
 						router.push(`/${ params.locale }/order/successful`);

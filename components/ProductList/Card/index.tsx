@@ -15,6 +15,7 @@ import { Section } from '@/models/filter';
 import Rating from '@/components/UI/Rating';
 import IconsBlock from '@/components/ProductList/Card/IconsBlock';
 import ActionsBlock from '@/components/ProductList/Card/ActionsBlock';
+import { onAddToCart, onSelectItem } from '@/event';
 
 const cargo = [ '3', '4', '5', '6', '9', '10', '11' ];
 
@@ -34,6 +35,7 @@ const ProductCard: FC<Props> = ({ item }) => {
 	const sectionNew = section === Section.Tires ? cargo.includes(item.vehicle_type) ? 'cargo' : 'tires' : section;
 
 	const handleClick = () => {
+		onAddToCart(item, t(section), 1);
 		setLoading(true);
 		if(!cartStorage?.find((item: { id: number, quantity: number }) => item.id === best_offer.id)) {
 			const cart = [ ...cartStorage, {
@@ -48,6 +50,7 @@ const ProductCard: FC<Props> = ({ item }) => {
 	};
 
 	const onClick = () => {
+		onSelectItem(item, t(section), 1)
 		dispatch(setProgress(true));
 	}
 
@@ -66,8 +69,8 @@ const ProductCard: FC<Props> = ({ item }) => {
 					/>
 				</div>
 				<Link
-					href={ `/${ page_url }` }
 					onClick={ onClick }
+					href={ `/${ page_url }` }
 					className='font-bold my-2.5 min-h-12 after:absolute after:inset-0'
 				>
 					{ full_name }

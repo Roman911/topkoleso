@@ -18,6 +18,7 @@ import InfoBlock from '@/components/Product/InfoBlock';
 import { SettingsProps } from '@/models/settings';
 import Offers from '@/components/Product/Offers';
 import BuyActions from '@/components/Product/BuyActions';
+import { onItemView } from '@/event';
 
 interface Props {
 	idProduct: string
@@ -38,6 +39,10 @@ const ProductComponent: FC<Props> = ({ idProduct, locale, data, section, setting
 	const commentsAvgRateSum = review && review.length > 0
 		? review.reduce((sum, current) => sum + (current.score || 0), 0) : 0;
 	const averageScore = review && review.length > 0 ? commentsAvgRateSum / review.length : undefined;
+
+	useEffect(() => {
+		onItemView(data?.data, t(section));
+	}, [data?.data, section, t]);
 
 	useEffect(() => {
 		const storage = getFromStorage('reducerRecentlyViewed');

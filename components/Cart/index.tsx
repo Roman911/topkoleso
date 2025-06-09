@@ -1,5 +1,5 @@
 'use client'
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { ScrollShadow } from '@heroui/scroll-shadow';
@@ -7,6 +7,8 @@ import CartItem from './CartItem';
 import type { ProductsProps } from '@/models/products';
 import { Language } from '@/models/language';
 import { Button } from '@heroui/button';
+import { beginCheckout } from '@/event';
+import { Section } from '@/models/filter';
 
 const totalQuantityLabel = {
 	1: {
@@ -47,6 +49,20 @@ const CartComponent: FC<CarProps> = ({ data, cartItems, removeProduct, setQuanti
 	const totalQuantity = items?.length;
 	const totalQuantityPrice = items?.reduce((sum, item) => sum + (item.quantity ?? 0) * parseFloat(item.price), 0);
 
+	useEffect(() => {
+		if(data) {
+			const dataItems = data.data.products.map(item => {
+				const quantity = cartItems?.find(i => i.id === item.best_offer.id)?.quantity || 1;
+				const section = /\bdia\d+\b/.test(item.page_url) ? Section.Disks : /(?:^|[^a-zA-Z])\d+ah(?=-|$)/.test(item.page_url) ? Section.Battery : Section.Tires;
+
+				return {
+					id: item.best_offer.id, full_name: item.full_name, price: item.best_offer.price, brand: item.brand_name, model: item.model.name, section, quantity
+				}
+			});
+			beginCheckout(dataItems)
+		}
+	}, [cartItems, data])
+
 	const handleClick = () => {
 		router.push(`/${ locale }/order`)
 	}
@@ -71,6 +87,8 @@ const CartComponent: FC<CarProps> = ({ data, cartItems, removeProduct, setQuanti
 					removeProduct={ removeProduct }
 					setQuantity={ setQuantity }
 					locale={ locale }
+					brand={ item.brand_name }
+					model={ item.model.name }
 				/>
 			}) }
 		</ScrollShadow>

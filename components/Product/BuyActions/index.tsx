@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@heroui/button';
@@ -14,6 +16,7 @@ import { removeCart, setQuantity } from '@/store/slices/cartSlice';
 import CartComponent from '@/components/Cart';
 import NoResult from '@/components/UI/NoResult';
 import Spinner from '@/components/UI/Spinner';
+import { onAddToCart } from '@/event';
 
 interface Props {
 	locale: Language
@@ -56,6 +59,7 @@ const BuyActions: FC<Props> = ({ locale, offerId, quantity, section, data, onSub
 	}
 
 	const handleClickBuy = () => {
+		onAddToCart(data?.data, t(section), quantity);
 		onSubmit();
 		onOpen();
 	}
