@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import * as Icons from '@/components/UI/Icons';
 import { Button } from '@heroui/button';
 import { Form } from '@heroui/form';
+import { Input } from '@heroui/input';
 import { addToast } from '@heroui/toast';
 import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@heroui/modal';
 import PhoneMaskInput from '@/components/UI/PhoneMaskInput';
@@ -11,6 +12,7 @@ import { baseDataAPI } from '@/services/baseDataService';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import { formatPhoneNumber } from '@/lib/formatPhoneNumber';
+import { onCallBack } from '@/event';
 
 interface Props {
 	id: number | undefined
@@ -27,6 +29,7 @@ const CallbackModal: FC<Props> = ({ id, quantity }) => {
 		event.preventDefault();
 		setPhoneErrorMessage(null);
 		const formData = new FormData(event.currentTarget);
+		const name = formData.get('name') as string;
 		const phone = formData.get('phone') as string;
 		const phoneTransform = formatPhoneNumber(phone);
 
@@ -34,11 +37,13 @@ const CallbackModal: FC<Props> = ({ id, quantity }) => {
 			setPhoneErrorMessage('enter your phone number');
 		} else {
 			await createCallback({
+				name,
 				phone: formatPhoneNumber(phone),
 				product_id: id?.toString(),
 				quantity,
 			}).then((response: { data?: { result: boolean }; error?: FetchBaseQueryError | SerializedError }) => {
 				if(response?.data?.result) {
+					onCallBack(id || 1, name, phoneTransform, quantity);
 					addToast({
 						title: t('our manager'),
 					});
@@ -72,6 +77,13 @@ const CallbackModal: FC<Props> = ({ id, quantity }) => {
 									<p className="text-sm text-gray-500">
 										{ t('put phone') }
 									</p>
+									<Input
+										isRequired
+										errorMessage={ t('error text') }
+										label={ t('name') }
+										name='name'
+										type='text'
+									/>
 									<PhoneMaskInput phoneErrorMessage={ phoneErrorMessage } />
 									<Button type='submit' color='primary' radius='full' size='lg' isLoading={ isLoading }
 													className='uppercase font-bold'>

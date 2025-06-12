@@ -21,7 +21,6 @@ import { addToStorage, getFromStorage, removeFromStorage } from '@/lib/localeSto
 import { addBookmarks, removeBookmarks } from '@/store/slices/bookmarksSlice';
 import * as Icons from '../../UI/Icons';
 import CallbackModal from '@/components/Product/ActionsBlock/CallbackModal';
-import AddAskModal from '@/components/Product/ActionsBlock/AddAskModal';
 
 // Helper function to update local storage
 const updateStorage = (storageKey: string, id: number, section: string, shouldRemove: boolean) => {
@@ -65,7 +64,6 @@ const ActionsBlock: FC<ActionsBlockProps> = ({ id, className, section, quantity,
 	return (
 		<div className={ twMerge('gap-1.5 xl:gap-2.5 h-full', className) }>
 			<CallbackModal id={ id } quantity={ quantity }/>
-			<AddAskModal id={ id } productName={ productName }/>
 			<div className='p-3 bg-gray-300 rounded-full group cursor-pointer relative'>
 				<Icons.ShareIcon className='w-4 h-4 fill-black group-hover:fill-primary'/>
 				<div

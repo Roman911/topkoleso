@@ -1,5 +1,6 @@
 import { Product } from '@/models/product';
 import { Product as Products, ProductsProps } from '@/models/products';
+import QuickOrder from '@/components/Product/QuickOrder';
 
 export const onItemView = (data: Product | undefined, section: string) => {
 	if(!data) return;
@@ -195,6 +196,57 @@ export const onOrderMakeEnd = (data: ProductsProps | undefined, cartItem: {id: n
 			affiliation: 'main',
 			value: totalSum,
 			currency: 'UAN',
+			items: items
+		},
+	};
+
+	console.log('outData', outData);
+	(window.dataLayer as unknown as { push: (data: Record<string, unknown>) => void })?.push(outData);
+};
+
+export const onCallBack = (id: number, name: string, phone: string, quantity: number) => {
+	if(!name) return;
+
+	const items = [{
+		currency: 'UAN',
+		item_id: `SKU_${id}`,
+		quantity,
+		name,
+		phone,
+	}];
+
+	(window.dataLayer as unknown as { push: (data: Record<string, unknown>) => void })?.push({ ecommerce: null });
+
+	const outData = {
+		event: "zvorotniy_dzvinok",
+		currency: 'UAN',
+		ecommerce: {
+			items: items
+		},
+	};
+
+	console.log('outData', outData);
+	(window.dataLayer as unknown as { push: (data: Record<string, unknown>) => void })?.push(outData);
+};
+
+export const onQuickOrder = (id: number, name: string, phone: string, quantity: number, price: number) => {
+	if(!name) return;
+
+	const items = [{
+		currency: 'UAN',
+		item_id: `SKU_${id}`,
+		quantity,
+		name,
+		phone,
+		price,
+	}];
+
+	(window.dataLayer as unknown as { push: (data: Record<string, unknown>) => void })?.push({ ecommerce: null });
+
+	const outData = {
+		event: "shvidke_zamovlennya",
+		currency: 'UAN',
+		ecommerce: {
 			items: items
 		},
 	};

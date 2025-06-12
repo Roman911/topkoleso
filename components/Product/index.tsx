@@ -56,10 +56,6 @@ const ProductComponent: FC<Props> = ({ idProduct, locale, data, section, setting
 	}, [ data ]);
 
 	useEffect(() => {
-		if(section !== Section.Battery && data && offer && offer.quantity >= 4) setQuantity(4);
-	}, [data, offer, section]);
-
-	useEffect(() => {
 		if(data) {
 			if(section === 'disks') {
 				dispatch(changeSection(Section.Disks));

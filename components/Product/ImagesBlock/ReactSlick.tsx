@@ -134,8 +134,6 @@ export const ReactSlick: FC<Props> = ({ images, photo }) => {
 		initialSlide: index
 	};
 
-	console.log(items)
-
 	return (
 		<div className='slider-container max-w-dvw md:max-w-72 -mx-5 md:mx-auto dark:mx-0'>
 			{ items.length > 1 ? (

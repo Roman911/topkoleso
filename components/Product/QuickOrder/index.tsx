@@ -12,6 +12,8 @@ import { Offers } from '@/models/product';
 import { baseDataAPI } from '@/services/baseDataService';
 import PhoneMaskInput from '@/components/UI/PhoneMaskInput';
 import { formatPhoneNumber } from '@/lib/formatPhoneNumber';
+import { Input } from '@heroui/input';
+import { onQuickOrder } from '@/event';
 
 interface Props {
 	offerId: number
@@ -36,6 +38,7 @@ const QuickOrder: FC<Props> = (
 		event.preventDefault();
 		setPhoneErrorMessage(null);
 		const formData = new FormData(event.currentTarget);
+		const name = formData.get('name') as string;
 		const phone = formData.get('phone') as string;
 		const phoneTransform = formatPhoneNumber(phone);
 
@@ -72,6 +75,7 @@ const QuickOrder: FC<Props> = (
 			}) => {
 				const data = response?.data;
 				if(data) {
+					onQuickOrder(product.product_id || 1, name, phoneTransform, quantity, product.price);
 					addToast({
 						title: t('sent order'),
 						description: t('our manager'),
@@ -117,6 +121,13 @@ const QuickOrder: FC<Props> = (
 									className='mt-2 mb-8 flex flex-col gap-4'
 									onSubmit={ onSubmit }
 								>
+									<Input
+										isRequired
+										errorMessage={ t('error text') }
+										label={ t('name') }
+										name='name'
+										type='text'
+									/>
 									<PhoneMaskInput phoneErrorMessage={ phoneErrorMessage } />
 									<Button type='submit' color='primary' radius='full' size='lg' className='uppercase ml-auto mt-2 font-bold'
 													isLoading={ isLoading }>
