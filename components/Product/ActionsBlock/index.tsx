@@ -37,10 +37,9 @@ interface ActionsBlockProps {
 	className: string
 	section: string
 	quantity: number
-	productName: string
 }
 
-const ActionsBlock: FC<ActionsBlockProps> = ({ id, className, section, quantity, productName }) => {
+const ActionsBlock: FC<ActionsBlockProps> = ({ id, className, section, quantity }) => {
 	const t = useTranslations('ActionBlock');
 	const pathname = usePathname();
 	const url = process.env.ACCESS_ORIGIN + pathname;

@@ -1,6 +1,5 @@
 import { Product } from '@/models/product';
 import { Product as Products, ProductsProps } from '@/models/products';
-import QuickOrder from '@/components/Product/QuickOrder';
 
 export const onItemView = (data: Product | undefined, section: string) => {
 	if(!data) return;

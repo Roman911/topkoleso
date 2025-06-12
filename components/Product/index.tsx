@@ -96,7 +96,7 @@ const ProductComponent: FC<Props> = ({ idProduct, locale, data, section, setting
 							vehicle_type={ data.data.offer_group.vehicle_type }
 							season={ model.season }
 						/>
-						<ActionsBlock className='flex lg:hidden' id={ id } section={ section } quantity={ quantity } productName={ full_name } />
+						<ActionsBlock className='flex lg:hidden' id={ id } section={ section } quantity={ quantity } />
 						<div className='flex-1 lg:ml-6 xl:ml-10'>
 							<h1 className='text-2xl font-bold mt-8 lg:mt-0'>{ full_name }</h1>
 							<div className='flex mt-4 items-center'>
@@ -119,7 +119,7 @@ const ProductComponent: FC<Props> = ({ idProduct, locale, data, section, setting
 										* { t(section === Section.Disks ? 'price one disk' : 'price one tire') }
 									</div> }
 								</div>
-								<ActionsBlock className='hidden lg:flex' id={ id } section={ section } quantity={ quantity } productName={ full_name } />
+								<ActionsBlock className='hidden lg:flex' id={ id } section={ section } quantity={ quantity } />
 							</div>
 							<Offers locale={ locale } offerId={ offerId } offers={ offers } setOfferId={ setOfferId } setQuantity={ setQuantity } />
 						</div>
