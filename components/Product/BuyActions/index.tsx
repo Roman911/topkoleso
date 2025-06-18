@@ -65,7 +65,7 @@ const BuyActions: FC<Props> = ({ locale, offerId, quantity, section, data, onSub
 	}
 
 	return (
-		<div className='buttons-buy flex flex-col gap-2'>
+		<div className='buttons-buy flex flex-col md:flex-row gap-4 mt-4'>
 			{ cartItems.find(item => +item.id === offerId) ?
 				<Button color='success' size='lg' radius='full' onPress={ onOpen } className='uppercase font-bold'>
 					{ t('in cart') }

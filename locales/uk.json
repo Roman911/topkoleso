@@ -223,7 +223,8 @@
     "price one disk": "Ціна вказана за один диск без шини",
     "place an order": "Оформити замовлення",
     "continue shopping": "Продовжити покупки",
-    "customer reviews": "Відгуки клієнтів"
+    "customer reviews": "Відгуки клієнтів",
+    "our advantages": "Наші переваги"
   },
   "QuickOrder": {
     "quick order": "Швидке замовлення",
@@ -294,15 +295,12 @@
     "change": "Змінити"
   },
   "OurAdvantages": {
-    "our advantages": "Наші переваги",
-    "in tire market with": "На шинному ринку з",
-    "year": "2008 року",
-    "full": "Повний",
-    "maintenance cycle": "цикл обслуговування в Києві (замовлення, доставка, установка, зберігання)",
-    "registered trademark": "Зареєстрована торгова марка",
-    "luxshina tm": "LuxShina TM",
-    "fast delivery in ukraine": "Швидка доставка по Україні",
-    "delivery": "(Нова пошта, Meest)"
+    "delivery without prepayment": "Доставка без передоплати",
+    "pay only after receiving": "Сплачуйте лише після отримання. Ніяких ризиків!",
+    "warehouse in kyiv region": "Склад у Київській області",
+    "we accept orders even on weekends": "Приймаємо замовлення навіть у вихідні дні",
+    "we have a warehouse in the city of vasylkiv": "Маємо склад у місті Васильків. Є можливість самовивозу",
+    "we work on weekends": "Працюємо у вихідні"
   },
   "Cart": {
     "total payable": "Разом до сплати",

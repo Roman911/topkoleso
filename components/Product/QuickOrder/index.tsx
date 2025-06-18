@@ -15,11 +15,17 @@ import { formatPhoneNumber } from '@/lib/formatPhoneNumber';
 import { Input } from '@heroui/input';
 import { onQuickOrder } from '@/event';
 
+interface ItemProps {
+	product_id: number
+	price: string
+}
+
 interface Props {
 	offerId: number
 	quantity: number
 	section: Section
-	offerItem: Offers | undefined
+	offerItem: Offers | ItemProps | undefined
+	className?: string
 }
 
 const QuickOrder: FC<Props> = (
@@ -27,6 +33,7 @@ const QuickOrder: FC<Props> = (
 		offerId,
 		quantity,
 		offerItem,
+		className
 	}
 ) => {
 	const [ phoneErrorMessage, setPhoneErrorMessage ] = useState<string | null>(null);
@@ -100,7 +107,7 @@ const QuickOrder: FC<Props> = (
 				onPress={ onOpen }
 				radius='full'
 				size='lg'
-				className='bg-white mt-2.5 w-full lg:w-72 hover:bg-white hover:shadow uppercase border border-gray-400 font-bold'
+				className={ className || 'bg-[#F26805] w-full lg:w-72 text-white hover:shadow uppercase font-bold' }
 			>
 				{ t('quick order') }
 			</Button>
@@ -129,7 +136,7 @@ const QuickOrder: FC<Props> = (
 										type='text'
 									/>
 									<PhoneMaskInput phoneErrorMessage={ phoneErrorMessage } />
-									<Button type='submit' color='primary' radius='full' size='lg' className='uppercase ml-auto mt-2 font-bold'
+									<Button type='submit' color='primary' radius='full' size='lg' className='uppercase ml-auto mt-2 font-bold rounded-full'
 													isLoading={ isLoading }>
 										{ t('send') }
 									</Button>
