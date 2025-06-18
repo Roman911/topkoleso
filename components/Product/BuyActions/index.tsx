@@ -70,7 +70,7 @@ const BuyActions: FC<Props> = ({ locale, offerId, quantity, section, data, onSub
 				<Button color='success' size='lg' radius='full' onPress={ onOpen } className='uppercase font-bold'>
 					{ t('in cart') }
 				</Button> :
-				<Button onPress={ handleClickBuy } color='primary' radius='full' size='lg' className='uppercase w-full font-bold lg:w-72'>
+				<Button onPress={ handleClickBuy } color='primary' radius='full' size='lg' className='uppercase w-full font-bold'>
 					{ t('buy') }
 				</Button>
 			}

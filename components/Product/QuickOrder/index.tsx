@@ -107,7 +107,7 @@ const QuickOrder: FC<Props> = (
 				onPress={ onOpen }
 				radius='full'
 				size='lg'
-				className={ className || 'bg-[#F26805] w-full lg:w-72 text-white hover:shadow uppercase font-bold' }
+				className={ className || 'bg-[#F26805] w-full text-white hover:shadow uppercase font-bold' }
 			>
 				{ t('quick order') }
 			</Button>
