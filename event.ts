@@ -29,6 +29,36 @@ export const onItemView = (data: Product | undefined, section: string) => {
 	(window.dataLayer as unknown as { push: (data: Record<string, unknown>) => void })?.push(outData);
 };
 
+export const onItemViewList = (data: Products[]) => {
+	if(!data) return;
+
+	const items = data.map((item) => {
+
+		return {
+			item_id: `SKU_${item.sku}`,
+			item_name: item.full_name,
+			price: +item.min_price,
+			item_brand: item.brand_name,
+			item_category: item.types === 3 ? 'Диски' : item.types === 4 ? 'Акумулятори' : 'Шини',
+			item_variant: item.model.name,
+			quantity: 1,
+		}
+	});
+
+	(window.dataLayer as unknown as { push: (data: Record<string, unknown>) => void })?.push({ ecommerce: null });
+
+	const outData = {
+		event: "view_item_list",
+		currency: 'UAN',
+		ecommerce: {
+			items: items
+		},
+	};
+
+	console.log('outData', outData);
+	(window.dataLayer as unknown as { push: (data: Record<string, unknown>) => void })?.push(outData);
+};
+
 export const onAddToCart = (data: Product | Products | undefined, section: string, quantity: number) => {
 	if (!data) return;
 

@@ -51,6 +51,7 @@ export interface Product {
 	model: Model
 	best_offer: BestOffer
 	labels: []
+	types: number
 }
 
 export interface Data {

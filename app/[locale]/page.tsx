@@ -43,10 +43,12 @@ export default async function Home({ params }: { params: Promise<{ locale: Langu
 				{ products.result ? <ProductList
 					classnames='grid-cols-1 lg:grid-cols-2 lg:grid-cols-4'
 					data={ products.data }
+					columns={ 4 }
 				/> : <NoResult noResultText='no result'/> }
 				{ productsAkum.result ? <ProductList
 					classnames='grid-cols-1 lg:grid-cols-2 lg:grid-cols-4 mt-4'
 					data={ productsAkum.data }
+					columns={ 4 }
 				/> : <NoResult noResultText='no result'/> }
 				{ featureParams.ProductTiporazmer && <PopularSizes locale={ locale } settings={ response } popularSizes={ featureParams.ProductTiporazmer } /> }
 				{ reviews && <Reviews reviews={ reviews } /> }

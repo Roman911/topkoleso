@@ -42,6 +42,7 @@ const SimilarProducts: FC<Props> = ({ offerGroup }) => {
 			{ data?.result && <ProductList
 				classnames='grid-cols-1 lg:grid-cols-2 lg:grid-cols-4 px-3 lg:px-0'
 				data={ data?.data }
+				columns={ 4 }
 			/> }
 		</Spinner>
 	</>;

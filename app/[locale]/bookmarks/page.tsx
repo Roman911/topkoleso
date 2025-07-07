@@ -28,6 +28,7 @@ export default function Bookmarks() {
 			<ProductList
 				classnames='grid-cols-1 lg:grid-cols-2 lg:grid-cols-4'
 				data={ { products, total_count: products.length } }
+				columns={ 4 }
 			/>
 		</Spinner> : <NoResult noResultText='any products to favorites yet' /> }
 	</LayoutWrapper>

@@ -46,6 +46,7 @@ export default function Search() {
 				<ProductList
 					classnames='grid-cols-1 lg:grid-cols-2 lg:grid-cols-4'
 					data={ data.data }
+					columns={ 4 }
 				/> :
 				<NoResult noResultText='no result'/>
 			}
