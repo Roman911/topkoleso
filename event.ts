@@ -1,5 +1,5 @@
 import { Product } from '@/models/product';
-import { Product as Products, ProductsProps } from '@/models/products';
+import { Product as Products } from '@/models/products';
 
 export const onItemView = (data: Product | undefined, section: string) => {
 	if(!data) return;
@@ -195,17 +195,28 @@ export const onSelectItem = (data: Product | Products | undefined, section: stri
 	(window.dataLayer as unknown as { push: (data: Record<string, unknown>) => void })?.push(outData);
 };
 
-export const onOrderMakeEnd = (data: ProductsProps | undefined, cartItem: {id: number, quantity: number, section: string}[], orderId: number) => {
+export const onOrderMakeEnd = (data: (Products | Product)[] | undefined, cartItem: {id: number, quantity: number, section: string}[], orderId: number) => {
 	if(!data) return;
 
-	const items = data?.data.products.map((item) => {
-		const cart = cartItem.find((product) => product.id === item.best_offer.id);
+	const items = data?.map((item) => {
+		const cart = cartItem.find((product) => product.id === ('best_offer' in item ? item.best_offer.id : 'product_id' in item ? item.product_id : 0));
+
+		let id;
+		let brand;
+
+		if ("id" in item) {
+			id = item.id;
+			brand = item.brand.name;
+		} else {
+			id = item.best_offer.id;
+			brand = item.brand_name;
+		}
 
 		return {
-			item_id: `SKU_${item.group}`,
+			item_id: `SKU_${id}`,
 			item_name: item.full_name,
 			price: +item.min_price,
-			item_brand: item.brand_name,
+			item_brand: brand,
 			item_category: cart?.section === 'tires' ? 'Шини' : cart?.section === 'disks' ? 'Диски' : cart?.section === 'battery' ? 'Акумулятори' : '',
 			item_variant: item.model.name,
 			quantity: cart?.quantity || 0,

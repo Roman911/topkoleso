@@ -95,6 +95,7 @@ const ProductCard: FC<Props> = ({ item }) => {
 						offerId={ best_offer.id }
 						quantity={ 1 }
 						section={ section }
+						data={ item }
 						className='text-sm font-bold uppercase bg-[#F26805] text-white'
 						offerItem={{ product_id: best_offer.id, price: best_offer.price }}
 					/>

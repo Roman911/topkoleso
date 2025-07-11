@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation';
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Form } from '@heroui/form';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
@@ -14,7 +14,8 @@ import Breadcrumbs from '@/components/UI/Breadcrumbs';
 import OrderComponent from '@/components/Order';
 import { resetStorage } from '@/lib/localeStorage';
 import { formatPhoneNumber } from '@/lib/formatPhoneNumber';
-import { onOrderMakeEnd } from '@/event';
+import { beginCheckout, onOrderMakeEnd } from '@/event';
+import { Section } from '@/models/filter';
 
 export default function Order() {
 	const router = useRouter();
@@ -37,6 +38,20 @@ export default function Order() {
 			products: [ ...tires, ...cargo, ...disks, ...battery ],
 		},
 	}), [ battery, cargo, disks, tires ]);
+
+	useEffect(() => {
+		if(newData.data.products.length > 0) {
+			const dataItems = newData.data.products.map(item => {
+				const quantity = cartItems?.find(i => i.id === item.best_offer.id)?.quantity || 1;
+				const section = /\bdia\d+\b/.test(item.page_url) ? Section.Disks : /(?:^|[^a-zA-Z])\d+ah(?=-|$)/.test(item.page_url) ? Section.Battery : Section.Tires;
+
+				return {
+					id: item.best_offer.id, full_name: item.full_name, price: item.best_offer.price, brand: item.brand_name, model: item.model.name, section, quantity
+				}
+			});
+			beginCheckout(dataItems)
+		}
+	}, [cartItems, newData])
 
 	const products = newData?.data.products?.map((item) => {
 		return {
@@ -112,7 +127,7 @@ export default function Order() {
 				if(data) {
 					if(data.linkpay?.length > 0) window.open(data?.linkpay, "_blank")
 					if(data.result) {
-						onOrderMakeEnd(newData, cartItems, data?.order_id);
+						onOrderMakeEnd(newData.data.products, cartItems, data?.order_id);
 						dispatch(reset());
 						resetStorage('reducerCart');
 						router.push(`/${ params.locale }/order/successful`);

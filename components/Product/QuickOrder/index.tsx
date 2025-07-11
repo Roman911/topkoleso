@@ -8,12 +8,13 @@ import { Form } from '@heroui/form';
 import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@heroui/modal';
 import { useTranslations } from 'next-intl';
 import { Section } from '@/models/filter';
-import { Offers } from '@/models/product';
+import { Offers, Product } from '@/models/product';
+import { Product as Products } from '@/models/products';
 import { baseDataAPI } from '@/services/baseDataService';
 import PhoneMaskInput from '@/components/UI/PhoneMaskInput';
 import { formatPhoneNumber } from '@/lib/formatPhoneNumber';
 import { Input } from '@heroui/input';
-import { onQuickOrder } from '@/event';
+import { beginCheckout, onOrderMakeEnd, onQuickOrder } from '@/event';
 
 interface ItemProps {
 	product_id: number
@@ -24,6 +25,7 @@ interface Props {
 	offerId: number
 	quantity: number
 	section: Section
+	data: Product | Products
 	offerItem: Offers | ItemProps | undefined
 	className?: string
 }
@@ -32,8 +34,10 @@ const QuickOrder: FC<Props> = (
 	{
 		offerId,
 		quantity,
+		data,
 		offerItem,
-		className
+		className,
+		section
 	}
 ) => {
 	const [ phoneErrorMessage, setPhoneErrorMessage ] = useState<string | null>(null);
@@ -79,18 +83,20 @@ const QuickOrder: FC<Props> = (
 				data?: { result: boolean, linkpay: string, order_id: number };
 				error?: FetchBaseQueryError | SerializedError
 			}) => {
-				const data = response?.data;
-				if(data) {
+				const dataRes = response?.data;
+				if(dataRes) {
 					onQuickOrder(product.product_id || 1, name, phoneTransform, quantity, product.price);
 					addToast({
 						title: t('sent order'),
 						description: t('our manager'),
 						classNames: { base: 'text-black', title: 'text-black' },
 					});
-					if(data?.linkpay?.length > 0) {
-						window.open(data?.linkpay, "_blank")
+					if(dataRes?.linkpay?.length > 0) {
+						window.open(dataRes?.linkpay, "_blank")
 					}
-					if(data?.result) {
+					if(dataRes?.result) {
+						const offerItems = [{ id: offerId, quantity, section }];
+						onOrderMakeEnd([data], offerItems, dataRes?.order_id);
 						onClose();
 					}
 				} else if(response.error) {
@@ -100,10 +106,28 @@ const QuickOrder: FC<Props> = (
 		}
 	}
 
+	const onOpenModal = () => {
+		onOpen();
+		if(data) {
+			const brand = 'brand_name' in data ? data.brand_name : data.brand.name;
+			const section = /\bdia\d+\b/.test(data.page_url) ? Section.Disks : /(?:^|[^a-zA-Z])\d+ah(?=-|$)/.test(data.page_url) ? Section.Battery : Section.Tires;
+			const dataItems = {
+				id: offerId,
+				full_name: data.full_name,
+				price: offerItem?.price || '',
+				brand,
+				model: data.model.name,
+				section,
+				quantity
+			}
+			beginCheckout([dataItems])
+		}
+	}
+
 	return (
 		<>
 			<Button
-				onPress={ onOpen }
+				onPress={ onOpenModal }
 				radius='full'
 				size='lg'
 				className={ className || 'bg-[#F26805] w-full text-white hover:shadow uppercase font-bold' }
