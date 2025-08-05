@@ -40,7 +40,7 @@ export default function Order() {
 	}), [ battery, cargo, disks, tires ]);
 
 	useEffect(() => {
-		if(newData.data.products.length > 0) {
+		if(newData.data.products.length > 0 && cartItems?.length > 0) {
 			const dataItems = newData.data.products.map(item => {
 				const quantity = cartItems?.find(i => i.id === item.best_offer.id)?.quantity || 1;
 				const section = /\bdia\d+\b/.test(item.page_url) ? Section.Disks : /(?:^|[^a-zA-Z])\d+ah(?=-|$)/.test(item.page_url) ? Section.Battery : Section.Tires;
