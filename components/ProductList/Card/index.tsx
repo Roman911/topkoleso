@@ -97,7 +97,7 @@ const ProductCard: FC<Props> = ({ item }) => {
 						section={ section }
 						data={ item }
 						className='text-sm font-bold uppercase bg-[#F26805] text-white'
-						offerItem={{ product_id: best_offer.id, price: best_offer.price }}
+						offerItem={{ product_id: group, price: best_offer.price }}
 					/>
 				</ButtonGroup>
 			</CardFooter>
