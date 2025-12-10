@@ -62,7 +62,7 @@ const CartItem: FC<CartItemProps> = (
 		removeProduct(id);
 	}
 
-	return <div className='flex flex-col lg:flex-row py-4 items-center relative border-b'>
+	return <div className='flex flex-col lg:flex-row py-4 items-center relative border-b border-gray-100'>
 		<Link href={`/${pageUrl}`}>
 			<Image src={ default_photo } height={ 122 } width={ 122 } alt={ full_name } />
 		</Link>

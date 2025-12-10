@@ -42,7 +42,7 @@ interface ActionsBlockProps {
 const ActionsBlock: FC<ActionsBlockProps> = ({ id, className, section, quantity }) => {
 	const t = useTranslations('ActionBlock');
 	const pathname = usePathname();
-	const url = process.env.ACCESS_ORIGIN + pathname;
+	const url = process.env.NEXT_PUBLIC_ACCESS_ORIGIN + pathname;
 	const dispatch = useAppDispatch();
 	const { bookmarksItems } = useAppSelector(state => state.bookmarksReducer);
 	const isBookmarks = bookmarksItems.some(item => item.id === id);
@@ -61,7 +61,7 @@ const ActionsBlock: FC<ActionsBlockProps> = ({ id, className, section, quantity 
 	}
 
 	return (
-		<div className={ twMerge('gap-1.5 xl:gap-2.5 h-full', className) }>
+		<div className={ twMerge('gap-1.5 xl:gap-2.5 h-full z-10', className) }>
 			<CallbackModal id={ id } quantity={ quantity }/>
 			<div className='p-3 bg-gray-300 rounded-full group cursor-pointer relative'>
 				<Icons.ShareIcon className='w-4 h-4 fill-black group-hover:fill-primary'/>

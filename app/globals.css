@@ -1,40 +1,74 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-body {
-  color: var(--foreground);
-  background: var(--background);
+@plugin './hero.ts';
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --color-gray-50: #fafafc;
+    --color-gray-100: #EBECF0;
+    --color-gray-200: #E4EAF0;
+    --color-gray-300: #E1E8F5;
+    --color-gray-400: #F0F0F0;
+    --color-gray-500: #707680;
+    --color-gray-600: #575C66;
+    --color-gray-700: #303233;
+    --color-gray-800: #232323;
+    --color-gray-900: #1E2121;
+    --color-gray-950: #050000;
+
+    --color-blue-100: #EBEEFC;
+    --color-blue-500: #334CCC;
+    --color-blue-800: #1D33A5;
+
+    --color-teal-500: #6EDEAD;
+
+    --color-violet-500: #6550D3;
 }
 
-@layer base {
-  input {
-    outline: none;
-  }
+@theme static {
+    --color-black: var(--color-gray-950);
 
-  .icon {
-    @apply text-2xl;
-  }
+    --color-primary: var(--color-blue-500);
 }
 
-@layer components {
-  .btn {
-    @apply h-12 rounded-sm font-bold w-72 flex justify-center items-center transition-all;
-  }
+/*@tailwind base;*/
+/*@tailwind components;*/
+/*@tailwind utilities;*/
 
-  .primary {
-    @apply text-black transition;
-    background: var(--g-color-primary);
+/*body {*/
+/*  color: var(--foreground);*/
+/*  background: var(--background);*/
+/*}*/
 
-    &:hover {
-      background: var(--g-color-primary);
-    }
-  }
+/*@layer base {*/
+/*  input {*/
+/*    outline: none;*/
+/*  }*/
 
-  .black {
-    @apply text-white transition;
-    background: var(--g-color-background);
-  }
+/*  .icon {*/
+/*    @apply text-2xl;*/
+/*  }*/
+/*}*/
+
+/*@layer components {*/
+/*  .btn {*/
+/*    @apply h-12 rounded-sm font-bold w-72 flex justify-center items-center transition-all;*/
+/*  }*/
+
+/*  .primary {*/
+/*    @apply text-black transition;*/
+/*    background: var(--g-color-primary);*/
+
+/*    &:hover {*/
+/*      background: var(--g-color-primary);*/
+/*    }*/
+/*  }*/
+
+/*  .black {*/
+/*    @apply text-white transition;*/
+/*    background: var(--g-color-background);*/
+/*  }*/
 
   /*.secondary {*/
   /*  @apply bg-white hover:bg-blue-200;*/
@@ -47,4 +81,4 @@ body {
 /*  .small {*/
 /*    @apply w-20;*/
 /*  }*/
-}
+/*}*/
